@@ -5,7 +5,7 @@ ELF=$(notdir $(CURDIR)).elf
 
 # Library path
 
-LIBROOT=./STM32F4xx_DSP_StdPeriph_Lib_V1.5.1
+LIBROOT=../STM32F4xx_DSP_StdPeriph_Lib_V1.5.1
 
 # Tools
 
@@ -31,25 +31,31 @@ vpath %.c $(DEVICE)
 
 # Search path for Library
 
-vpath %.c $(TEMPLATEROOT)/Library/ff9/src
-vpath %.c $(TEMPLATEROOT)/Library/ff9/src/option
-vpath %.c $(TEMPLATEROOT)/Library
+#vpath %.c $(TEMPLATEROOT)/Library/ff9/src
+#vpath %.c $(TEMPLATEROOT)/Library/ff9/src/option
+#vpath %.c $(TEMPLATEROOT)/Library
 
 #  Processor specific
 
-PTYPE = STM32F10X_MD_VL 
+PTYPE = STM32F40_41xxx
 LDSCRIPT = $(TEMPLATEROOT)/stm32_flash.ld
-STARTUP= startup_stm32f10x.o system_stm32f10x.o 
+STARTUP= startup_stm32f4xx.o system_stm32f4xx.o 
 
 # Compilation Flags
 
 FULLASSERT = -DUSE_FULL_ASSERT 
 
-LDFLAGS+= -T$(LDSCRIPT) -mthumb -mcpu=cortex-m3 
-CFLAGS+= -mcpu=cortex-m3 -mthumb 
+#Generic ARM options
+LDFLAGS+= -T$(LDSCRIPT) -mthumb -mcpu=cortex-m4  
+CFLAGS+= -mcpu=cortex-m3 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb-interwork -std=c99
+
+#STM options
+CFLAGS+= -DHSE_VALUE=8000000
+
+#ENV options
 CFLAGS+= -I$(TEMPLATEROOT) -I$(DEVICE) -I$(CORE) -I$(PERIPH)/inc -I.
 CFLAGS+= -D$(PTYPE) -DUSE_STDPERIPH_DRIVER $(FULLASSERT)
-CFLAGE+= -I$(TEMPLATEROOT)/Library/ff9/src -I$(TEMPLATEROOT)/Library
+#CFLAGE+= -I$(TEMPLATEROOT)/Library/ff9/src -I$(TEMPLATEROOT)/Library
 
 # Build executable 
 
