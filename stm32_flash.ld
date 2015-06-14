@@ -141,10 +141,11 @@ SECTIONS
   ._user_heap_stack :
   {
     . = ALIGN(4);
-    PROVIDE ( end = . );
-    PROVIDE ( _end = . );
-    /* Should this be _ebss?*/
-    PROVIDE ( _exit = . );
+    PROVIDE ( end = _ebss );
+    PROVIDE ( _end = _ebss );
+    PROVIDE ( _exit = _ebss );
+    PROVIDE (_stackend = ORIGIN(RAM) + LENGTH(RAM) - _Minimum_Stack_Size);
+
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(4);
