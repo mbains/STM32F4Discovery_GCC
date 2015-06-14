@@ -143,6 +143,8 @@ SECTIONS
     . = ALIGN(4);
     PROVIDE ( end = . );
     PROVIDE ( _end = . );
+    /* Should this be _ebss?*/
+    PROVIDE ( _exit = . );
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(4);

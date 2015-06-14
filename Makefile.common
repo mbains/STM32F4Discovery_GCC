@@ -47,7 +47,8 @@ FULLASSERT = -DUSE_FULL_ASSERT
 
 #Generic ARM options
 LDFLAGS+= -T$(LDSCRIPT) -mthumb -mcpu=cortex-m4  
-CFLAGS+= -mcpu=cortex-m3 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb-interwork -std=c99
+CFLAGS+= -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=soft 
+#-mthumb-interwork -std=c99
 
 #STM options
 CFLAGS+= -DHSE_VALUE=8000000
