@@ -83,7 +83,7 @@ int usart_init() {
         - Hardware flow control disabled (RTS and CTS signals)
         - Receive and transmit enabled
   */ 
-  USART_InitStructure.USART_BaudRate = 5250000;
+  USART_InitStructure.USART_BaudRate = 9600;
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
   USART_InitStructure.USART_StopBits = USART_StopBits_1;
   USART_InitStructure.USART_Parity = USART_Parity_No;
@@ -104,6 +104,8 @@ int usart_init() {
   
   /* Enable USART */
   USART_Cmd(USARTx, ENABLE);
+  NVIC_EnableIRQ(USART3_IRQn);
+  //USART_ITConfig(USARTx, USART_IT_TXE, ENABLE);
     return 0;
 }
 
@@ -111,31 +113,31 @@ int usart_TxTest()
 {
     int idx;
     for(idx=0; idx < txbufsize; idx++) {
-        USART_SendData(USART1, txbuf[idx]);
-        while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+        USART_SendData(USART3, txbuf[idx]);
+        while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
     }
 }
 
-void USART1_IRQHandler(void) {
-    if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) 
+void USART3_IRQHandler(void) {
+    if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET) 
     {
         uint8_t data;
         //buffer the data or toss it f there is no room
         //flow control will prevent this
-        data = USART_ReceiveData(USART1) & 0xff;
+        data = USART_ReceiveData(USART3) & 0xff;
         if(!Enqueue(&rxbuffer, data))
             RxOverflow = 1;
         
     }
     
-    if(USART_GetITStatus(USART1, USART_IT_TXE) != RESET) {
+    if(USART_GetITStatus(USART3, USART_IT_TXE) != RESET) {
         uint8_t data;
         
         if(Dequeue(&txbuffer, &data)){
-            USART_SendData(USART1, data);
+            USART_SendData(USART3, data);
         } else {
             //if nothing to send disable interrupt
-            USART_ITConfig(USART1, USART_IT_TXE, DISABLE);
+            USART_ITConfig(USART3, USART_IT_TXE, DISABLE);
             TxPrimed = 0;
         }
     }
@@ -154,7 +156,7 @@ int usart_putc(int c)
     
     if(!TxPrimed) {
         TxPrimed = 1;
-        USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
+        USART_ITConfig(USART3, USART_IT_TXE, ENABLE);
     }
     
 }

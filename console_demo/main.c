@@ -1,6 +1,8 @@
 #include <stm32f4xx.h>
 #include <stm32f4xx_rcc.h>
 #include <stm32f4xx_gpio.h>
+#include <usart/usart.h>
+#include <stdio.h>
 
 void Delay(uint32_t nTime);
 const uint16_t LEDS = GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;
@@ -9,7 +11,8 @@ const uint16_t LED[4] = {GPIO_Pin_12, GPIO_Pin_13, GPIO_Pin_14, GPIO_Pin_15};
 int main(void) {
 
     SystemCoreClockUpdate();
-
+    
+    usart_init();
     GPIO_InitTypeDef GPIO_InitStructure;
     GPIO_StructInit(&GPIO_InitStructure);
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
@@ -33,6 +36,7 @@ int main(void) {
         GPIO_ResetBits(GPIOD, LEDS);
 
         GPIO_SetBits(GPIOD, LED[counter % 4]);
+        printf("test\r\n");
         Delay(250);
 
     }
