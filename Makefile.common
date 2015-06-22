@@ -28,6 +28,7 @@ vpath %.c $(TEMPLATEROOT)
 vpath %.c $(CORE)
 vpath %.c $(PERIPH)/src
 vpath %.c $(DEVICE)
+vpath %.c ../usart
 
 # Search path for Library
 
@@ -39,7 +40,8 @@ vpath %.c $(DEVICE)
 
 PTYPE = STM32F40_41xxx
 LDSCRIPT = $(TEMPLATEROOT)/stm32_flash.ld
-STARTUP= startup_stm32f4xx.o system_stm32f4xx.o 
+STARTUP = startup_stm32f4xx.o system_stm32f4xx.o 
+USART = usart.o syscalls.o ring.o
 
 # Compilation Flags
 
