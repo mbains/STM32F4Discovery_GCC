@@ -83,7 +83,7 @@ int usart_init() {
         - Hardware flow control disabled (RTS and CTS signals)
         - Receive and transmit enabled
   */ 
-  USART_InitStructure.USART_BaudRate = 9600;
+  USART_InitStructure.USART_BaudRate = 57600;
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
   USART_InitStructure.USART_StopBits = USART_StopBits_1;
   USART_InitStructure.USART_Parity = USART_Parity_No;
@@ -105,7 +105,7 @@ int usart_init() {
   /* Enable USART */
   USART_Cmd(USARTx, ENABLE);
   NVIC_EnableIRQ(USART3_IRQn);
-  //USART_ITConfig(USARTx, USART_IT_TXE, ENABLE);
+  USART_ITConfig(USARTx, USART_IT_RXNE, ENABLE);
     return 0;
 }
 

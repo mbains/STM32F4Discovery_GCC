@@ -9,6 +9,8 @@ const uint16_t LEDS = GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;
 const uint16_t LED[4] = {GPIO_Pin_12, GPIO_Pin_13, GPIO_Pin_14, GPIO_Pin_15};
 
 int main(void) {
+  
+    char str[40];
 
     SystemCoreClockUpdate();
     
@@ -36,8 +38,10 @@ int main(void) {
         GPIO_ResetBits(GPIOD, LEDS);
 
         GPIO_SetBits(GPIOD, LED[counter % 4]);
-        printf("test\r\n");
-        Delay(250);
+        printf("input:\r\n");
+        char c = usart_getc();
+        printf("%c\r\n", c);
+        //Delay(250);
 
     }
     return 0;
