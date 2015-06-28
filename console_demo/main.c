@@ -38,10 +38,9 @@ int main(void) {
         GPIO_ResetBits(GPIOD, LEDS);
 
         GPIO_SetBits(GPIOD, LED[counter % 4]);
-        printf("input:\r\n");
+        printf("input:");
         char c = usart_getc();
         printf("%c\r\n", c);
-        //Delay(250);
 
     }
     return 0;
