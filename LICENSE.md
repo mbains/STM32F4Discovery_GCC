@@ -29,4 +29,4 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ```
  
  License for STM32F4 Peripheral Libraries are included with their source. 
- stm32.ld Copyright Atollic AB
+ stm32_flash.ld Copyright Atollic AB
